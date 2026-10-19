@@ -56,6 +56,17 @@ if (!$query_tarik) {
 
 ?>
 <h1>Riwayat Transaksi</h1>
+<?php if (($_GET['error'] ?? '') === 'saldo_kurang') { ?>
+    <div class="alert alert-warning alert-dismissible fade show" role="alert">
+        <strong>Saldo admin tidak mencukupi!</strong> Top up saldo terlebih dahulu sebelum menerima setoran.
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Tutup"></button>
+    </div>
+<?php } elseif (($_GET['error'] ?? '') === 'gagal') { ?>
+    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+        Setoran gagal diproses. Silakan muat ulang halaman dan coba lagi.
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Tutup"></button>
+    </div>
+<?php } ?>
 
 <p class="text-muted">
     Setoran siswa/guru harus disetujui terlebih dahulu sebelum saldo dan stok bertambah.

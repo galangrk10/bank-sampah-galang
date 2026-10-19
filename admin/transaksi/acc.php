@@ -44,7 +44,22 @@ try {
     $id_user = $data['id_user'];
     $id_sampah = $data['id_sampah'];
     $berat = $data['berat_kg'];
-    $total = $data['total_rp'];
+    $total = (int)$data['total_rp'];
+    $id_admin = (int)($_SESSION['id_user'] ?? 0);
+
+    // Saldo admin harus cukup untuk membayar nilai setoran.
+    // Pemotongan dilakukan secara atomik agar saldo tidak minus.
+    $potong_saldo_admin = mysqli_query($koneksi, "
+        UPDATE users
+        SET saldo = saldo - $total
+        WHERE id_user = $id_admin
+          AND role = 'admin'
+          AND saldo >= $total
+    ");
+
+    if (!$potong_saldo_admin || mysqli_affected_rows($koneksi) != 1) {
+        throw new Exception("SALDO_TIDAK_CUKUP");
+    }
 
     // 1. Tandai setoran diterima.
     $update_status = mysqli_query($koneksi, "
@@ -89,7 +104,13 @@ try {
 
     mysqli_rollback($koneksi);
 
-    die("Gagal menerima setoran: " . $e->getMessage());
+    if ($e->getMessage() === "SALDO_TIDAK_CUKUP") {
+        header("Location: ../dashboard.php?page=transaksi&error=saldo_kurang");
+        exit;
+    }
+
+    header("Location: ../dashboard.php?page=transaksi&error=gagal");
+    exit;
 }
 
 ?>

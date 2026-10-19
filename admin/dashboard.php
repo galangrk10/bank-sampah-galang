@@ -58,6 +58,7 @@ $page = isset($_GET['page']) ? $_GET['page'] : '';
         <a class="nav-link <?= $page=='sampah'?'active':'' ?>" href="dashboard.php?page=sampah"><span class="nav-icon">♻</span> Data Sampah</a>
         <a class="nav-link <?= $page=='transaksi'?'active':'' ?>" href="dashboard.php?page=transaksi"><span class="nav-icon">▤</span> Riwayat Transaksi</a>
         <a class="nav-link <?= $page=='penjualan'?'active':'' ?>" href="dashboard.php?page=penjualan"><span class="nav-icon">▣</span> Jual ke Pengepul</a>
+        <a class="nav-link <?= $page=='topup'?'active':'' ?>" href="dashboard.php?page=topup"><span class="nav-icon">＋</span> Top Up Saldo</a>
         <a class="nav-link <?= $page=='tarik'?'active':'' ?>" href="dashboard.php?page=tarik"><span class="nav-icon">↕</span> Tarik Saldo</a>
     </div>
     <div class="sidebar-bottom">
@@ -97,6 +98,7 @@ elseif ($page == 'sampah') { include "sampah/index.php"; }
 elseif ($page == 'transaksi') { include "transaksi/index.php"; }
 elseif ($page == 'penjualan') { include "penjualan/index.php"; }
 elseif ($page == 'tarik') { include "tarik.php"; }
+elseif ($page == 'topup') { include "topup.php"; }
 else { ?><div class="alert alert-danger">Halaman tidak ditemukan.</div><?php } ?>
 </section>
 </main></div>
